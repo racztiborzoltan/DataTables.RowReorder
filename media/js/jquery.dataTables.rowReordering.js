@@ -143,6 +143,22 @@
             oSettings.oApi._fnDraw(oSettings);
         }
 
+        function fnIsSortedByIndexColumn() {
+            var aaSorting = oTable.fnSettings().aaSorting;
+            return aaSorting != null
+                && aaSorting.length == 1
+                && aaSorting[0][0] == properties.iIndexColumn
+                && aaSorting[0][1] == "asc";
+        }
+
+        function fnUpdateIndexColumn() {
+            if (! fnIsSortedByIndexColumn()) {
+                var aiIndex = oTable.fnSettings().aiDisplayMaster;
+                for (var i = 0; i < aiIndex.length; i++)
+                    oTable.fnUpdate(i, aiIndex[i], properties.iIndexColumn, false);
+            }
+        }
+
         function _fnAlert(message, type) { alert(message); }
 
         var oTable = this;
@@ -166,24 +182,19 @@
 
         return this.each(function () {
 
-            var aaSortingFixed = (oTable.fnSettings().aaSortingFixed == null ? new Array() : oTable.fnSettings().aaSortingFixed);
-            aaSortingFixed.push([properties.iIndexColumn, "asc"]);
-
-            oTable.fnSettings().aaSortingFixed = aaSortingFixed;
-
-
-            for (var i = 0; i < oTable.fnSettings().aoColumns.length; i++) {
-                oTable.fnSettings().aoColumns[i].bSortable = false;
-                /*for(var j=0; j<aaSortingFixed.length; j++)
-                {
-                if( i == aaSortingFixed[j][0] )
-                oTable.fnSettings().aoColumns[i].bSortable = false;
-                }*/
-            }
-            oTable.fnDraw();
+            // update the index column ordinals only when the table is sorted by another one
+            oTable.on("sort", function (event) {
+                fnUpdateIndexColumn();
+            });
+            fnUpdateIndexColumn();
 
             $("tbody", oTable).sortable({
                 cursor: "move",
+                start: function (event, ui) {
+                    // change the sorting by index column if not done already
+                    if (! fnIsSortedByIndexColumn())
+                        oTable.fnSort( [ [properties.iIndexColumn, "asc"] ] );
+                },
                 update: function (event, ui) {
                     var tbody = $(this);
                     var sSelector = "tbody tr";
