@@ -180,6 +180,11 @@
 
         var iFrom, iTo;
 
+        // listen to ColReorder plugin for reordering of the index column
+        $(oTable).bind('column-reorder', function(e, oSettings, oReorderInfo) {
+            properties.iIndexColumn = oReorderInfo.aiInvertMapping[properties.iIndexColumn];
+        });
+
         return this.each(function () {
 
             // update the index column ordinals only when the table is sorted by another one
