@@ -152,11 +152,20 @@
         }
 
         function fnUpdateIndexColumn() {
-            if (! fnIsSortedByIndexColumn()) {
-                var aiIndex = oTable.fnSettings().aiDisplayMaster;
+            var oSettings = oTable.fnSettings();
+            if (oSettings !== null && oSettings.bInitialised && ! oSettings.bDestroying && ! fnIsSortedByIndexColumn()) {
+                var aiIndex = oSettings.aiDisplayMaster;
                 for (var i = 0; i < aiIndex.length; i++)
                     oTable.fnUpdate(i, aiIndex[i], properties.iIndexColumn, false);
             }
+        }
+
+        function fnReflectColumnReordering(e, oSettings, oReorderInfo) {
+            properties.iIndexColumn = oReorderInfo.aiInvertMapping[properties.iIndexColumn];
+        }
+
+        function _fnDestroy() {
+            oTable.unbind(".rowReordering");
         }
 
         function _fnAlert(message, type) { alert(message); }
@@ -178,19 +187,15 @@
 
         var properties = $.extend(defaults, options);
 
-        var iFrom, iTo;
-
-        // listen to ColReorder plugin for reordering of the index column
-        $(oTable).bind('column-reorder', function(e, oSettings, oReorderInfo) {
-            properties.iIndexColumn = oReorderInfo.aiInvertMapping[properties.iIndexColumn];
-        });
-
         return this.each(function () {
+            var oSettings = oTable.fnSettings();
+            oSettings.oApi._fnCallbackReg(oSettings, 'aoDestroyCallback', $.proxy(_fnDestroy, oTable), 'rowReordering');
 
-            // update the index column ordinals only when the table is sorted by another one
-            oTable.on("sort", function (event) {
-                fnUpdateIndexColumn();
-            });
+            oTable
+                // update the index column ordinals only when the table is sorted by another one
+                .bind("sort.rowReordering", fnUpdateIndexColumn)
+                // listen to ColReorder plugin for reordering of the index column
+                .bind('column-reorder.rowReordering', fnReflectColumnReordering);
             fnUpdateIndexColumn();
 
             $("tbody", oTable).sortable({
