@@ -38,17 +38,6 @@
 	"use strict";
 	$.fn.rowReordering = function (options) {
 		
-		///Not used
-		function fnGetStartPosition(oTable, sSelector) {
-			var iStart = 1000000;
-			$(sSelector, oTable).each(function () {
-				iPosition = parseInt(oTable.fnGetData(this, properties.iIndexColumn));
-				if (iPosition < iStart)
-					iStart = iPosition;
-			});
-			return iStart;
-		}
-		
 		function fnCancelSorting(oTable, tbody, properties, iLogLevel, sMessage) {
 			tbody.sortable('cancel');
 			if(iLogLevel<=properties.iLogLevel){
@@ -64,7 +53,7 @@
 		function fnGetState(oTable, sSelector, id) {
 			var tr = $("#" + id, oTable);
 			var iCurrentPosition = parseInt( properties.fnGetPosFromTd(  oTable.fnGetData(tr[0], properties.iIndexColumn)  ) );
-			var iNewPosition = -1; // fnGetStartPosition(sSelector);
+			var iNewPosition = -1;
 			var sDirection;
 			var trPrevious = tr.prev(sSelector);
 			if (trPrevious.length > 0) {
