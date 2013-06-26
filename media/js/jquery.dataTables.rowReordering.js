@@ -37,27 +37,7 @@
 
 	"use strict";
 	$.fn.rowReordering = function (options) {
-
-		function _fnStartProcessingMode(oTable) {
-			///<summary>
-			///Function that starts "Processing" mode i.e. shows "Processing..." dialog while some action is executing(Default function)
-			///</summary>
-
-			if (oTable.fnSettings().oFeatures.bProcessing) {
-				$(".dataTables_processing").css('visibility', 'visible');
-			}
-		}
-
-		function _fnEndProcessingMode(oTable) {
-			///<summary>
-			///Function that ends the "Processing" mode and returns the table in the normal state(Default function)
-			///</summary>
-
-			if (oTable.fnSettings().oFeatures.bProcessing) {
-				$(".dataTables_processing").css('visibility', 'hidden');
-			}
-		}
-
+		
 		///Not used
 		function fnGetStartPosition(oTable, sSelector) {
 			var iStart = 1000000;
@@ -172,8 +152,24 @@
 			fnAlert: _fnAlert,
 			iLogLevel: 1,
 			sDataGroupAttribute: "data-group",
-			fnStartProcessingMode: _fnStartProcessingMode,
-			fnEndProcessingMode: _fnEndProcessingMode,
+			/**
+			 * Function that starts "Processing" mode
+			 * @var function
+			 * @param oTable Datatables instance
+			 */
+			fnStartProcessingMode: function (oTable) {
+				// Show "Processing..." dialog while some action is executing(Default function)
+				if (oTable.fnSettings().oFeatures.bProcessing) $(".dataTables_processing").css('visibility', 'visible');
+			},
+			/**
+			 * Function that ends the "Processing" mode and returns the table in the normal state
+			 * @var function
+			 * @param oTable Datatables instance
+			 */
+			fnEndProcessingMode: function (oTable) {
+				// Hide "Processing..." dialog (Default function)
+				if (oTable.fnSettings().oFeatures.bProcessing) $(".dataTables_processing").css('visibility', 'hidden');
+			},
 			fnUpdateAjaxRequest: jQuery.noop,
 			
 			osSortableHandle: false,
