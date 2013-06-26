@@ -139,17 +139,28 @@
 			oSettings.oApi._fnDraw(oSettings);
 		}
 
-		function _fnAlert(message, type) { alert(message); }
-
 		//var oTable = this;
 
 		var defaults = {
 			iIndexColumn: 0,
 			iStartPosition: 1,
+			/**
+			 * URL for Ajax request.
+			 * @var string
+			 */
 			sURL: null,
+			/**
+			 * type of ajax request
+			 * @var string (POST|GET)
+			 */
 			sRequestType: "POST",
 			iGroupingLevel: 0,
-			fnAlert: _fnAlert,
+			/**
+			 * Function for error displaying
+			 * @param message string
+			 * @param type string|int
+			 */
+			fnAlert: function (message, type) { alert(message); },
 			iLogLevel: 1,
 			sDataGroupAttribute: "data-group",
 			/**
