@@ -9,6 +9,7 @@
  *  - new options
  *  	- osSortableHandle, fnDrawCallback, fnGetPosFromTd
  * 	- change the names of some parameter in AJAX request ("fromPosition" --> "from", toPosition --> "to")
+ * 	- replace the direction strings in the AJAX request: 'forward' --> 'down' , 'backward' --> 'up'
  */
 /*
  * !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -70,9 +71,9 @@
 				}
 			}
 			if (iNewPosition < iCurrentPosition)
-				sDirection = "back";
+				sDirection = "up";
 			else
-				sDirection = "forward";
+				sDirection = "down";
 			
 			return { "sDirection": sDirection, "iCurrentPosition": iCurrentPosition, "iNewPosition": iNewPosition };
 		}
