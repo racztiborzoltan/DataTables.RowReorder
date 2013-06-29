@@ -9,7 +9,8 @@
  *  - new options
  *  	- osSortableHandle, fnDrawCallback, fnGetPosFromTd
  * 	- change the names of some parameter in AJAX request ("fromPosition" --> "from", toPosition --> "to")
- * 	- replace the direction strings in the AJAX request: 'forward' --> 'down' , 'backward' --> 'up'
+ * 	- replace the direction strings in the AJAX request and in code: 
+ * 			'forward' --> 'down' , 'backward' --> 'up'
  */
 /*
  * !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -81,7 +82,7 @@
 		function fnMoveRows(oTable, sSelector, iCurrentPosition, iNewPosition, sDirection, id, sGroup) {
 			var iStart = iCurrentPosition;
 			var iEnd = iNewPosition;
-			if (sDirection == "back") {
+			if (sDirection == "up") {
 				iStart = iNewPosition;
 				iEnd = iCurrentPosition;
 			}
@@ -98,7 +99,7 @@
 								        properties.iIndexColumn,
 								        false); // false = defer redraw until all row updates are done
 					} else {
-						if (sDirection == "back") {
+						if (sDirection == "up") {
 							oTable.fnUpdate(iRowPosition + 1,
 								        oTable.fnGetPosition(tr), // get row position in current model
 								        properties.iIndexColumn,
