@@ -1,64 +1,49 @@
-﻿<!DOCTYPE html>
-<html><head>
+<!DOCTYPE html>
+<html>
+	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 		<title>DataTables (table plug-in for jQuery) Row Reordering Add-on</title>
 		
-		<link rel="shortcut icon" type="image/ico" href="media/images/favicon.ico">
+		<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
 		
-		<style type="text/css" media="screen">
-			@import "media/css/demo_page.css";
-			@import "media/css/demo_table.css";
-			@import "media/css/site_jui.css";
-			@import "media/css/demo_table_jui.css";
-			@import "http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/smoothness/jquery-ui.css";
-			/*
-			 * Override styles needed due to the mix of three different CSS sources! For proper examples
-			 * please see the themes example in the 'Examples' section of this site
-			 */
-			.dataTables_info { padding-top: 0; }
-			.dataTables_paginate { padding-top: 0; }
-			.css_right { float: right; }
-			tfoot th input { width: 90% }
-			#example_wrapper .fg-toolbar { font-size: 0.8em }
-			#theme_links span { float: left; padding: 2px 10px; }
-		</style>
+		<!-- --------------------------------------------------------------- -->
+		
+		<!-- CSS -->
+		<style type="text/css" title="currentStyle">@import "examples/css/demo.css";</style>
+		
+		<!-- jQuery -->
 		<script src="http://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>
+		<!-- jQuery UI -->
 		<script src="http://code.jquery.com/ui/1.8.7/jquery-ui.min.js" type="text/javascript"></script>
-        <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js" type="text/javascript"></script>
-		<script type="text/javascript" src="media/js/jquery.dataTables.rowReordering.js"></script>
+		<!-- DataTables -->
+		<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js" type="text/javascript"></script>
+		<!-- DataTables RowReordering -->
+		<script src="media/js/jquery.dataTables.rowReordering.js" type="text/javascript"></script>
+		<!-- DataTables RowGrouping -->
+		<script src="media/js/jquery.dataTables.rowGrouping.js" type="text/javascript"></script>
+		
+		<!-- --------------------------------------------------------------- -->
+		
+		<script src="examples/js/demo.js" type="text/javascript"></script>
+		
+		<!-- --------------------------------------------------------------- -->
+		
 		<script type="text/javascript">
-		    $(document).ready(function () {
-		    	$.ajax({
-		    		async: false,
-		    		url: 'example/snippets/test_table.html',
-		    		success: function(response){
-		    			$('div.full_width').html( response );
-		    		},
-		    		dataType: 'html'
-		    	});
-		    	
-				$('#example').dataTable({
-					bJQueryUI: true,
-					"sPaginationType": "full_numbers"
-				})
-				.rowReordering();
-					
-		    });
+			$(function () {
+				$('#example')
+					.dataTable()
+					.rowReordering();
+			});
 		</script>
 		
-</head>
-	
-
-<body id="index" class="grid_2_3">
+	</head>
+	<body id="index" class="grid_2_3">
 		<div id="fw_container">
-			
-						<div id="fw_header">
+				
+			<div id="fw_header">
 				<h1>
-					
-
-						<img src="media/images/DataTables.jpg" alt="DataTables logo">
-						DataTables Row Reordering Add-on
-					
+					<img src="http://datatables.net/media/images/DataTables.jpg" alt="DataTables logo">
+					DataTables Row Reordering Add-on
 				</h1>
 				<ul>
 					<li><a  href="http://code.google.com/p/jquery-datatables-row-reordering/">Project Home</a></li>
@@ -66,19 +51,17 @@
 					<li><a  href="http://code.google.com/p/jquery-datatables-row-reordering/wiki/Index">Documentation</a></li>
 					<li><a  href="http://code.google.com/p/jquery-datatables-row-reordering/issues/list">Issues/Changes</a></li>
 					<li><a  href="http://jquery-datatables-row-reordering.googlecode.com/svn/trunk/media/js/jquery.dataTables.rowReordering.js" target="_blank">Download</a></li>
-
-									</ul>
+				</ul>
 				<div class="css_clear"></div>
-								
-								
+			</div> 
+			<!-- END #fw_header  -->
 				
-			</div>
-			
-						
+			<!-- START #fw_content -->
 			<div id="fw_content">
+				
 				<div class="grid_column_1">
-					<p><a  href="http://www.datatables.net/">JQuery DataTables</a> is a plug-in for the <a href="http://www.jquery.com/">jQuery</a> Javascript library. It is a highly flexible tool, based upon the foundations of progressive enhancement, which will add advanced interaction controls to any HTML table. 
-                    DataTables Row Reordering plugin is an add-on for the DataTables where is provided out of box Drag'n'Drop row reordering. Key features:</p>
+					<p><a href="http://www.datatables.net/">JQuery DataTables</a> is a plug-in for the <a href="http://www.jquery.com/">jQuery</a> Javascript library. It is a highly flexible tool, based upon the foundations of progressive enhancement, which will add advanced interaction controls to any HTML table. 
+					DataTables Row Reordering plugin is an add-on for the DataTables where is provided out of box Drag'n'Drop row reordering. Key features:</p>
 					<ul class="limit_length">
 						<li>Reordering rows using Drag'n'Drop</li>
 
@@ -93,41 +76,29 @@
 				
 				<div class="grid_column_2">
 					<p>So how easy it is to use apply row reordering on the DataTables? Take a peek at the code below, a single function call to initialise the table is all it takes:</p>
-					<pre class="brush: js; font-size: 75%">/* 
- * Example init
- */
-$(document).ready(function(){
-     $('#example').dataTable()
-		  .rowReordering();
-});</pre>
-
-
+					<pre class="brush: js; font-size: 75%">
+						/* 
+						 * Example init
+						 */
+						$('#example').dataTable()
+							.rowReordering();
+						});
+					</pre>
 				</div>
-				<div class="css_clear css_spacing"></div>
 				
 				<h3>Example</h3>
 				<div style="text-align: center" >Click on the first column to enable the drag-and-drop reorder!</div>
-				<div class="full_width"></div>
+				<div class="example-table-wrapper"></div>
 			</div>
-			<div class="css_clear"></div>
+			<!-- END #fw_content -->
 			
-			<div class="css_spacing"></div>
-
-			<div class="css_clear"></div>
-			
-						<div id="fw_footer">
-				<div class="css_center">
-					DataTables Row Reordering Add-on created by Jovan Popovic &copy; 2012<br>
-					DataTables designed and created by <a href="http://www.sprymedia.co.uk">Allan Jardine</a> &copy; 2007-2011<br>
-
-				</div>
-			</div>
-
-
+			<!-- START #fw_footer -->
+			<div id="fw_footer"></div>
+			<!-- END #fw_footer -->
 
 		</div>
-
-		
+	
+			
 	</body>
 
 </html>
