@@ -9,7 +9,7 @@
  *  - new options
  *  	- osSortableHandle, fnDrawCallback, fnGetPosFromTd
  * 	- change the names of some parameter in AJAX request ("fromPosition" --> "from", toPosition --> "to")
- * 	- replace the direction strings in the AJAX request and in code: 
+ * 	- replace the direction strings in the AJAX request and in code:
  * 			'forward' --> 'down' , 'backward' --> 'up'
  */
 /*
@@ -19,16 +19,16 @@
  * 
  * File:        jquery.dataTables.rowReordering.js
  * Version:     1.2.0.
- * Author:      Jovan Popovic 
+ * Author:      Jovan Popovic
  * 
  * Copyright 2013 Jovan Popovic, all rights reserved.
  *
  * This source file is free software, under either the GPL v2 license or a
  * BSD style license, as supplied with this software.
  * 
- * This source file is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. 
+ * This source file is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.
  * 
  * Parameters:
  * @iIndexColumn     int         Position of the indexing column
@@ -133,8 +133,17 @@
 		//var oTable = this;
 
 		var defaults = {
+			/**
+			 * Disable the sorting in all columns
+			 * @var boolean
+			 */
+			bDisableColumnSorting: true,
+			/**
+			 * Column index, wich is sortable with drag and drop.
+			 * @var integer (0 based)
+			 */
 			iIndexColumn: 0,
-			iStartPosition: 1,
+			// iStartPosition: 1,
 			/**
 			 * URL for Ajax request.
 			 * @var string
@@ -195,18 +204,29 @@
 		};
 
 		return this.each(function () {
-		
+			
 			var oTable = $(this).dataTable();
-
+			
+			// Disable sorting in all columns, if necessary:
+			if (properties.bDisableColumnSorting)
+			{
+				for (var i = 0; i < oTable.fnSettings().aoColumns.length; i++)
+				{
+					oTable.fnSettings().aoColumns[i].bSortable = false;
+				}
+				oTable.fnDraw();
+				$('.DataTables_sort_icon', oTable.get(0)).addClass('ui-helper-hidden-accessible');
+			}
+			
 			// add plus fnPreDrawCallback function to the dataTable:
 			oTable.fnSettings().aoPreDrawCallback.push({
 				sName: 'rowreordering_predrawcallback',
 				fn: function(oSettings){
+					if (properties.bDisableColumnSorting) return;
+					
 					var oTable = $(this).dataTable();
-					
 					var aaSorting = oTable.fnSettings().aaSorting;
-					
-					var bSortedByIndexColumn = 
+					var bSortedByIndexColumn =
 								aaSorting != null
 									&& aaSorting.length == 1
 									&& aaSorting[0][0] == properties.iIndexColumn
@@ -216,17 +236,18 @@
 					var $temp = $("tbody", oTable);
 					if ( bSortedByIndexColumn && ($temp.hasClass('ui-sortable') || $temp.data( 'ui-sortable' )) )
 						$temp.sortable('enable');
-					else 
+					else
 						$temp.sortable('disable');
 				}
 			});
+			
 			// Add the user defined fnDrawCallback function:
 			if (properties.fnDrawCallback)
 				oTable.fnSettings().aoDrawCallback.push({
 					sName: 'rowreordering_drawcallback',
 					fn: properties.fnDrawCallback
 				});
-	
+			
 			$("tbody", oTable).disableSelection().sortable({
 				cursor: "move",
 				handle: properties.osSortableHandle,
@@ -236,7 +257,7 @@
 					var tbody = $(this);
 					var sSelector = "tbody tr";
 					var sGroup = "";
-					if (properties.bGroupingUsed) 
+					if (properties.bGroupingUsed)
 					{
 						sGroup = $(ui.item).attr(properties.sDataGroupAttribute);
 						if(sGroup==null || sGroup==undefined)
