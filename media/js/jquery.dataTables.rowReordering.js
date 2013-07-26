@@ -7,7 +7,7 @@
  * History:
  * v1.3.0
  *  - new options
- *  	- osSortableHandle, fnDrawCallback, fnGetPosFromTd
+ *  	- osSortableHandle, fnDrawCallback, fnGetPosFromTd, bDisableColumnSorting
  * 	- change the names of some parameter in AJAX request ("fromPosition" --> "from", toPosition --> "to")
  * 	- replace the direction strings in the AJAX request and in code:
  * 			'forward' --> 'down' , 'backward' --> 'up'
